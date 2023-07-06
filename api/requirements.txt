@@ -7,4 +7,4 @@ pocketsphinx
 azure-functions
 google-cloud-speech
 soundfile
-flac
+openai
