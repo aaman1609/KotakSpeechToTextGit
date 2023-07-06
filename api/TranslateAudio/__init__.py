@@ -51,7 +51,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         gcs = ""
 
-        
         # recognize speech using Google Cloud Speech
         GOOGLE_CLOUD_SPEECH_CREDENTIALS = {
                   "type": "service_account",
@@ -66,10 +65,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kotakpoc%40react-password-mngr.iam.gserviceaccount.com",
                   "universe_domain": "googleapis.com"
                 }
+        GCS_CRED = path.join(path.dirname(path.realpath(__file__)), "file.wav")
+
+        with open(GCS_CRED, 'w') as f:
+            json.dump(GOOGLE_CLOUD_SPEECH_CREDENTIALS, f)
+       
 
         logging.info(GOOGLE_CLOUD_SPEECH_CREDENTIALS)
         try:
-            gcs = ("Google Cloud Speech(Internet + Paid) thinks you said " + r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS))
+            gcs = ("Google Cloud Speech(Internet + Paid) thinks you said " + r.recognize_google_cloud(audio, credentials_json=GCS_CRED))
             logging.info(gcs)
         except sr.UnknownValueError:
             gcs = ("Google Cloud Speech could not understand audio")
