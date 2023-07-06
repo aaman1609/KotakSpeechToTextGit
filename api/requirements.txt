@@ -9,3 +9,4 @@ google-cloud-speech
 soundfile
 openai
 numpy
+torch
