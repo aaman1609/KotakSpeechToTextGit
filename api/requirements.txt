@@ -7,7 +7,7 @@ pocketsphinx
 azure-functions
 google-cloud-speech
 soundfile
-#openai
+openai
 numpy
 #torch
 # numba
