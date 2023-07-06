@@ -30,6 +30,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             sphinx = ("Sphinx could not understand audio")
         except sr.RequestError as e:
             sphinx = ("Sphinx error; {0}".format(e))
+        except e:
+             sphinx = ("Some other error occoured {0}".format(e))
 
 
         gsr = ""
@@ -44,6 +46,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             gsr = ("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
             gsr = ("Could not request results from Google Speech Recognition service; {0}".format(e))
+        except e:
+             gsr = ("Some other error occoured {0}".format(e))
 
         gcs = ""
         # recognize speech using Google Cloud Speech
@@ -55,6 +59,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             gcs = ("Google Cloud Speech could not understand audio")
         except sr.RequestError as e:
             gcs = ("Could not request results from Google Cloud Speech service; {0}".format(e))
+        except e:
+             gcs = ("Some other error occoured {0}".format(e))
 
         
 
@@ -67,6 +73,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             whisper =("Whisper by OpenAI could not understand audio")
         except sr.RequestError as e:
             whisper =("Could not request results from Whisper")
+        except e:
+             whisper = ("Some other error occoured {0}".format(e))
 
         logging.info(sphinx)
         logging.info(gsr)
@@ -81,10 +89,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
            "error_message": "Success"}
         logging.info(abc)
         return func.HttpResponse(json.dumps(abc))
-    except:
+    except e:
         abc = { "error_message" :"Some error occured",
            "status_code" :500}
         logging.info(abc)
+        logging.info(e)
         logging.info("Some error occured")
         return func.HttpResponse(json.dumps(abc))
         
