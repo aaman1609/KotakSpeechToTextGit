@@ -25,11 +25,7 @@ function AudioRecorder (){
     });
   }
 
-  const componentDidMount= ()=> {
-    setState({
-      audioType: "audio/wav"
-    });
-  }
+
 
     
     
