@@ -25,6 +25,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # recognize speech using Sphinx
         try:
             sphinx = ("Sphinx(local  + Free) thinks you said " + r.recognize_sphinx(audio))
+            logging.info(sphinx)
         except sr.UnknownValueError:
             sphinx = ("Sphinx could not understand audio")
         except sr.RequestError as e:
@@ -38,6 +39,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
             gsr = ("Google Speech Recognition(Internet + Free) thinks you said " + r.recognize_google(audio))
+            logging.info(gsr)
         except sr.UnknownValueError:
             gsr = ("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
@@ -48,23 +50,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""react-password-mngr-966eaa923db7.json"""
         try:
             gcs = ("Google Cloud Speech(Internet + Paid) thinks you said " + r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS))
+            logging.info(gcs)
         except sr.UnknownValueError:
             gcs = ("Google Cloud Speech could not understand audio")
         except sr.RequestError as e:
             gcs = ("Could not request results from Google Cloud Speech service; {0}".format(e))
 
-        logging.info(sphinx)
-        logging.info(gsr)
-        logging.info(gcs)
+        
 
         whisper =""
         # recognize speech using whisper
         try:
-             whisper =("Whisper by OpenAI(local + Free) thinks you said " + r.recognize_whisper(audio, language="english"))
+            whisper =("Whisper by OpenAI(local + Free) thinks you said " + r.recognize_whisper(audio, language="english"))
+            logging.info(whisper)
         except sr.UnknownValueError:
-             whisper =("Whisper by OpenAI could not understand audio")
+            whisper =("Whisper by OpenAI could not understand audio")
         except sr.RequestError as e:
-             whisper =("Could not request results from Whisper")
+            whisper =("Could not request results from Whisper")
 
         logging.info(sphinx)
         logging.info(gsr)
