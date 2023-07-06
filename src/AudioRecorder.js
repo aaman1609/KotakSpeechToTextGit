@@ -83,7 +83,7 @@ function AudioRecorder (){
       <div>
         <AudioAnalyser {...audioProps}>
           <div className="btn-box">
-            <button
+            <button  style={{ marginTop: 10,marginLeft: 10,marginRight: 10, padding: 10}}
               className="btn"
               onClick={() => controlAudio("recording")}
             >
@@ -92,9 +92,9 @@ function AudioRecorder (){
             {/* <button className="btn" onClick={() => this.controlAudio("paused")}>
               Pause
             </button> */}
-            <button
+            <button  style={{ marginTop: 10,marginLeft: 10,marginRight: 10, padding: 10}}
               className="btn"
-              onClick={() => controlAudio("paused")}
+              onClick={() => controlAudio("inactive")}
             >
               Stop
             </button>
