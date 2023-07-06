@@ -61,7 +61,7 @@ function AudioRecorder (){
             console.log('Success:', data);
             setGsr(data.gsr);
             setGcs(data.gcs);
-            setSphinx( data.gcs);
+            setSphinx( data.sphinx);
             setWhisper(data.whisper);
           })
           .catch((error) => {
