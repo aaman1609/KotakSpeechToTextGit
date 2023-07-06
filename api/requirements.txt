@@ -8,3 +8,4 @@ azure-functions
 google-cloud-speech
 soundfile
 openai
+numpy

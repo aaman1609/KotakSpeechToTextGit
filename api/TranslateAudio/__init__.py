@@ -51,7 +51,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         gcs = ""
         # recognize speech using Google Cloud Speech
-        GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""react-password-mngr-966eaa923db7.json"""
+        GOOGLE_CLOUD_SPEECH_CREDENTIALS = path.join(path.dirname(path.realpath(__file__)), "react-password-mngr-966eaa923db7.json")
+        logging.info(GOOGLE_CLOUD_SPEECH_CREDENTIALS)
         try:
             gcs = ("Google Cloud Speech(Internet + Paid) thinks you said " + r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS))
             logging.info(gcs)
