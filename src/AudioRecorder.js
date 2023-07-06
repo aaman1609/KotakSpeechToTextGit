@@ -1,7 +1,16 @@
-import React, { Component } from "react";
+import React, { Component ,useState} from "react";
 import AudioAnalyser from "react-audio-analyser";
 
+const [gsr, setGsr] = useState(0);
+const [gcs, setGcs] = useState(0);
+const [sphinx, setSphinx] = useState(0);
+const [whisper, setWhisper] = useState(0);
+
 export default class AudioRecorder extends Component {
+
+ 
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,11 +73,11 @@ export default class AudioRecorder extends Component {
             console.error('Error:', error);
           });
         })();
-
-
-
-
         console.log("succ stop", e);
+        setGsr(e.gsr);
+        setGcs(e.gcs);
+        setSphinx( e.gcs);
+        setWhisper(e.whisper);
       },
       onRecordCallback: e => {
         console.log("recording", e);
@@ -87,21 +96,33 @@ export default class AudioRecorder extends Component {
             >
               Start
             </button>
-            <button className="btn" onClick={() => this.controlAudio("paused")}>
+            {/* <button className="btn" onClick={() => this.controlAudio("paused")}>
               Pause
-            </button>
+            </button> */}
             <button
               className="btn"
               onClick={() => this.controlAudio("inactive")}
             >
               Stop
             </button>
-            <button className="btn" onClick={() => console.log(AudioAnalyser)}>
+            {/* <button className="btn" onClick={() => console.log(AudioAnalyser)}>
               Log
-            </button>
+            </button> */}
           </div>
         </AudioAnalyser>
-        <p>choose output type</p>
+        <label>
+            gsr
+        </label>
+        <label>
+            gcs
+        </label>
+        <label>
+            whisper
+        </label>
+        <label>
+            sphinx
+        </label>
+        {/* <p>choose output type</p>
         <select
           name=""
           id=""
@@ -111,7 +132,7 @@ export default class AudioRecorder extends Component {
           <option value="audio/webm">audio/webm（default）</option>
           <option value="audio/wav">audio/wav</option>
           <option value="audio/mp3">audio/mp3</option>
-        </select>
+        </select> */}
       </div>
     );
   }
