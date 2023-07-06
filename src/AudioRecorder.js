@@ -94,7 +94,7 @@ function AudioRecorder (){
             </button> */}
             <button
               className="btn"
-              onClick={() => controlAudio("inactive")}
+              onClick={() => controlAudio("paused")}
             >
               Stop
             </button>
@@ -118,7 +118,7 @@ function AudioRecorder (){
         <label>
             {sphinx}
         </label>
-        <p>choose output type</p>
+        {/* <p>choose output type</p>
         <select
           name=""
           id=""
@@ -128,7 +128,7 @@ function AudioRecorder (){
           <option value="audio/webm">audio/webm（default）</option>
           <option value="audio/wav">audio/wav</option>
           <option value="audio/mp3">audio/mp3</option>
-        </select>
+        </select> */}
       </div>
     );
 }
