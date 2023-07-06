@@ -7,7 +7,7 @@ import "./index.css";
 function App() {
   return (
     <div className="App">
-      <h2>Record, Encode and Download Audio</h2>
+      <h2>Speach Recognization</h2>
       <AudioRecorder />
     </div>
   );

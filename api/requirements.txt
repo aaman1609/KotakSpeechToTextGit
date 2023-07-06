@@ -10,7 +10,8 @@ soundfile
 openai
 numpy
 torch
-numba
-tqdm
-more-itertools
-tiktoken==0.3.3
+# numba
+# tqdm
+# more-itertools
+# tiktoken==0.3.3
+# openai-whisper
