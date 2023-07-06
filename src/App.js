@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import AudioRecorder from "./AudioRecorder.js";
 
 import "./index.css";
