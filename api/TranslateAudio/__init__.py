@@ -65,7 +65,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kotakpoc%40react-password-mngr.iam.gserviceaccount.com",
                   "universe_domain": "googleapis.com"
                 }
-        GCS_CRED = path.join(path.dirname(path.realpath(__file__)), "file.wav")
+        GCS_CRED = path.join(path.dirname(path.realpath(__file__)), "GCS.json")
 
         with open(GCS_CRED, 'w') as f:
             json.dump(GOOGLE_CLOUD_SPEECH_CREDENTIALS, f)
