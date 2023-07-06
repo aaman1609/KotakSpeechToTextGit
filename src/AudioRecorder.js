@@ -19,16 +19,12 @@ function AudioRecorder (){
     });
   }
 
-  const changeScheme = (e) =>{
-    setState({
-      audioType: e.target.value
-    });
-  }
-
-
-
-    
-    
+  // const changeScheme = (e) =>{
+  //   setState({
+  //     audioType: e.target.value
+  //   });
+  // }
+  
     const audioProps = {
       audioType,
       // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
