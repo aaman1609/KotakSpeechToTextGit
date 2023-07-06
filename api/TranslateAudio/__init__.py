@@ -1,24 +1,88 @@
 import logging
 
 import azure.functions as func
-
+import speech_recognition as sr
+from os import path
+import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+    try :
+    
+        logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    if not name:
+        AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "file.wav")
+        with open(AUDIO_FILE, "wb") as vid:
+            video_stream = req.files['audio-file'].read()
+            vid.write(video_stream)
+
+        # use the audio file as the audio source
+        r = sr.Recognizer()
+        with sr.AudioFile(AUDIO_FILE) as source:
+            audio = r.record(source)  # read the entire audio file
+    
+        sphinx =""
+        logging.info('trying sphinx')
+        # recognize speech using Sphinx
         try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+            sphinx = ("Sphinx(local  + Free) thinks you said " + r.recognize_sphinx(audio))
+        except sr.UnknownValueError:
+            sphinx = ("Sphinx could not understand audio")
+        except sr.RequestError as e:
+            sphinx = ("Sphinx error; {0}".format(e))
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+
+        gsr = ""
+        # recognize speech using Google Speech Recognition
+        try:
+            # for testing purposes, we're just using the default API key
+            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+            # instead of `r.recognize_google(audio)`
+            gsr = ("Google Speech Recognition(Internet + Free) thinks you said " + r.recognize_google(audio))
+        except sr.UnknownValueError:
+            gsr = ("Google Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            gsr = ("Could not request results from Google Speech Recognition service; {0}".format(e))
+
+        gcs = ""
+        # recognize speech using Google Cloud Speech
+        GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""react-password-mngr-966eaa923db7.json"""
+        try:
+            gcs = ("Google Cloud Speech(Internet + Paid) thinks you said " + r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS))
+        except sr.UnknownValueError:
+            gcs = ("Google Cloud Speech could not understand audio")
+        except sr.RequestError as e:
+            gcs = ("Could not request results from Google Cloud Speech service; {0}".format(e))
+
+        logging.info(sphinx)
+        logging.info(gsr)
+        logging.info(gcs)
+
+        whisper =""
+        # recognize speech using whisper
+        try:
+             whisper =("Whisper by OpenAI(local + Free) thinks you said " + r.recognize_whisper(audio, language="english"))
+        except sr.UnknownValueError:
+             whisper =("Whisper by OpenAI could not understand audio")
+        except sr.RequestError as e:
+             whisper =("Could not request results from Whisper")
+
+        logging.info(sphinx)
+        logging.info(gsr)
+        logging.info(gcs)
+        logging.info(whisper)
+    
+        abc = { "sphinx" :sphinx,
+           "gsr" :gsr,
+           "gcs" :gcs,
+           "whisper" :whisper,
+           "status_code": "200",
+           "error_message": "Success"}
+        logging.info(abc)
+        return func.HttpResponse(json.dumps(abc))
+    except:
+        abc = { "error_message" :"Some error occured",
+           "status_code" :500}
+        logging.info(abc)
+        logging.info("Some error occured")
+        return func.HttpResponse(json.dumps(abc))
+        
