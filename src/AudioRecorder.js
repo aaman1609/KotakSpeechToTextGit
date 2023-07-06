@@ -1,43 +1,38 @@
 import React, { Component ,useState} from "react";
 import AudioAnalyser from "react-audio-analyser";
 
-const [gsr, setGsr] = useState(0);
-const [gcs, setGcs] = useState(0);
-const [sphinx, setSphinx] = useState(0);
-const [whisper, setWhisper] = useState(0);
-
-export default class AudioRecorder extends Component {
-
- 
 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      status: ""
-    };
-  }
+function AudioRecorder (){
 
-  controlAudio(status) {
-    this.setState({
-      status
-    });
-  }
+ const [gsr, setGsr] = useState('');
+  const [gcs, setGcs] = useState('');
+  const [sphinx, setSphinx] = useState('');
+  const [whisper, setWhisper] = useState('');
+  const [state, setState] = useState("");
+  const { status, audioSrc, audioType } = state;
 
-  changeScheme(e) {
-    this.setState({
-      audioType: e.target.value
-    });
-  }
-
-  componentDidMount() {
-    this.setState({
+  const controlAudio = (status)=> {
+    setState({
+      status: status,
       audioType: "audio/wav"
     });
   }
 
-  render() {
-    const { status, audioSrc, audioType } = this.state;
+  const changeScheme = (e) =>{
+    setState({
+      audioType: e.target.value
+    });
+  }
+
+  const componentDidMount= ()=> {
+    setState({
+      audioType: "audio/wav"
+    });
+  }
+
+    
+    
     const audioProps = {
       audioType,
       // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
@@ -51,7 +46,7 @@ export default class AudioRecorder extends Component {
         console.log("succ pause", e);
       },
       stopCallback: e => {
-        this.setState({
+        setState({
           audioSrc: window.URL.createObjectURL(e)
         });
 
@@ -68,16 +63,17 @@ export default class AudioRecorder extends Component {
           .then(response => response.json())
           .then(data => {
             console.log('Success:', data);
+            setGsr(data.gsr);
+            setGcs(data.gcs);
+            setSphinx( data.gcs);
+            setWhisper(data.whisper);
           })
           .catch((error) => {
             console.error('Error:', error);
           });
         })();
         console.log("succ stop", e);
-        setGsr(e.gsr);
-        setGcs(e.gcs);
-        setSphinx( e.gcs);
-        setWhisper(e.whisper);
+        
       },
       onRecordCallback: e => {
         console.log("recording", e);
@@ -86,13 +82,14 @@ export default class AudioRecorder extends Component {
         console.log("error", err);
       }
     };
+
     return (
       <div>
         <AudioAnalyser {...audioProps}>
           <div className="btn-box">
             <button
               className="btn"
-              onClick={() => this.controlAudio("recording")}
+              onClick={() => controlAudio("recording")}
             >
               Start
             </button>
@@ -101,7 +98,7 @@ export default class AudioRecorder extends Component {
             </button> */}
             <button
               className="btn"
-              onClick={() => this.controlAudio("inactive")}
+              onClick={() => controlAudio("inactive")}
             >
               Stop
             </button>
@@ -111,29 +108,33 @@ export default class AudioRecorder extends Component {
           </div>
         </AudioAnalyser>
         <label>
-            gsr
+            {gsr}
         </label>
+        <br></br>
         <label>
-            gcs
+            {gcs}
         </label>
+         <br></br>
         <label>
-            whisper
+            {whisper}
         </label>
+         <br></br>
         <label>
-            sphinx
+            {sphinx}
         </label>
-        {/* <p>choose output type</p>
+        <p>choose output type</p>
         <select
           name=""
           id=""
-          onChange={e => this.changeScheme(e)}
+          onChange={e => changeScheme(e)}
           value={audioType}
         >
           <option value="audio/webm">audio/webm（default）</option>
           <option value="audio/wav">audio/wav</option>
           <option value="audio/mp3">audio/mp3</option>
-        </select> */}
+        </select>
       </div>
     );
-  }
 }
+
+export default AudioRecorder;
